@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <title>ফ্রেমে ছবি যোগ করুন</title>
+  <style>
+    body {
+      background: #0a7a3b;
+      font-family: sans-serif;
+      text-align: center;
+      color: white;
+    }
+    canvas {
+      max-width: 90%;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+    input, button {
+      margin-top: 15px;
+      padding: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>নিজের ছবি আপলোড করুন</h2>
+
+<input type="file" id="upload" accept="image/*"><br>
+<button onclick="downloadImage()">ডাউনলোড</button>
+
+<br>
+<canvas id="canvas"></canvas>
+
+<script>
+const upload = document.getElementById("upload");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+const frame = new Image();
+frame.src = "abutaleb.png";
+
+upload.addEventListener("change", function(e) {
+  const img = new Image();
+  img.onload = function () {
+    canvas.width = frame.width;
+    canvas.height = frame.height;
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+  };
+  img.src = URL.createObjectURL(e.target.files[0]);
+});
+
+function downloadImage() {
+  const link = document.createElement("a");
+  link.download = "framed-photo.png";
+  link.href = canvas.toDataURL();
+  link.click();
+}
+</script>
+
+</body>
+</html>
